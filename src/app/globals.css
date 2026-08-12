@@ -1,0 +1,10 @@
+@import "tailwindcss";
+
+body {
+  @apply bg-gray-950 text-gray-300
+}
+
+@keyframes flotar {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
