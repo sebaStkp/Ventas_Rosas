@@ -1,10 +1,9 @@
 import { prisma } from "@/libs/prisma";
-import { CreateDetalleOrdenDTO, UpdateDetalleOrdenDTO } from "./types";
+import { CreateDetalleOrdenDTO } from "./types";
 
 export async function getDetallesByOrdenIdDB(orden_id: string) {
   return prisma.detalleOrden.findMany({
     where: { orden_id },
-    include: { variante: true },
   });
 }
 

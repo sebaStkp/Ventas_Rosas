@@ -1,9 +1,10 @@
+export const PRECIO_LAMPARA = 100;
+export const ANTICIPO_LAMPARA = 20;
+
 export const COLORES = [
-  { id: "rojo", label: "Rojo", hex: "#e05c5c" },
-  { id: "azul", label: "Azul", hex: "#5c8de0" },
-  { id: "amarillo", label: "Amarillo", hex: "#e0c75c" },
-  { id: "blanco", label: "Blanco", hex: "#f0f0f0" },
-  { id: "rosa", label: "Rosa", hex: "#e05ca0" },
+  { id: "amarillo", label: "Amarillo", hex: "#FFC800" },
+  { id: "naranja", label: "Naranja", hex: "#FF6B4A" },
+  { id: "verde", label: "Verde", hex: "#42E8D2" },
 ];
 
 export const PUNTOS_ENTREGA = [
@@ -11,24 +12,24 @@ export const PUNTOS_ENTREGA = [
     id: "plaza-colon",
     nombre: "Plaza Colón",
     direccion: "Plaza Colón, Cochabamba",
-    latitud: -17.3888352,
-    longitud: -66.1561758,
+    latitud: -17.388547495751524,
+    longitud: -66.15608416320218,
     horario: "10:00am a 11:00am",
   },
   {
-    id: "plaza-14",
-    nombre: "Plaza 14 de Septiembre",
-    direccion: "Plaza 14 de Septiembre, Cochabamba",
-    latitud: -17.3932385,
-    longitud: -66.1565377,
+    id: "correo",
+    nombre: "Correo",
+    direccion: "Avenida Ayacucho entre Heroínas y Gral. Achá",
+    latitud: -17.392291203932537,
+    longitud: -66.15874062240208,
     horario: "11:15am a 12:15pm",
   },
   {
-    id: "mercado-la-cancha",
-    nombre: "Mercado La Cancha",
-    direccion: "La Cancha, Cochabamba",
-    latitud: -17.3961738,
-    longitud: -66.15132,
+    id: "hupermall",
+    nombre: "HuperMall",
+    direccion: "Avenida Pando entre Av. Portales y Hermogenes Sejas A.",
+    latitud: -17.375424439421998,
+    longitud: -66.15097051656238,
     horario: "12:30pm a 13:30pm",
   },
 ];

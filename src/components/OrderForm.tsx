@@ -1,10 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { COLORES, PUNTOS_ENTREGA } from "@/libs/constants";
+import { ANTICIPO_LAMPARA, COLORES, PRECIO_LAMPARA, PUNTOS_ENTREGA } from "@/libs/constants";
 import MapaEntrega from "./MapaEntrega";
-import { guardarUsuarioAction } from "@/features/usuario/actions";
-import { crearOrdenAction } from "@/features/orden/actions";
+import { crearReservaAction } from "@/features/orden/actions";
 
 export default function OrderForm() {
   const [colorSel, setColorSel] = useState(COLORES[0].id);
@@ -29,26 +28,19 @@ export default function OrderForm() {
     setCargando(true);
 
     try {
-      // 1. Guardamos o actualizamos al usuario por su CI
-      const usuarioRes = await guardarUsuarioAction({
-        nombre,
-        ci,
-        telefono,
-      });
-
-      const usuarioId = usuarioRes.data.id;
-
-      // Configuramos los datos de entrega dependiendo de la ciudad, ahora incluyendo el horario
       const lugarEntregaFinal = esCochabamba 
         ? `${puntoActual.nombre} (${puntoActual.horario})` 
         : `Envío a ${ciudad} (Por coordinar)`;
       const latitudFinal = esCochabamba ? (puntoActual.latitud ?? 0) : 0;
       const longitudFinal = esCochabamba ? (puntoActual.longitud ?? 0) : 0;
 
-      // 2. Creamos la orden conectada con los datos del formulario y el detalle del producto
-      await crearOrdenAction(
+      await crearReservaAction(
         {
-          usuario_id: usuarioId,
+          nombre,
+          ci,
+          telefono,
+        },
+        {
           ciudad,
           lugar_entrega: lugarEntregaFinal,
           latitud: latitudFinal,
@@ -58,7 +50,7 @@ export default function OrderForm() {
           {
             color: colorSel,
             cantidad: cantidad,
-            precio_unitario: 90.00,
+            precio_unitario: PRECIO_LAMPARA,
           },
         ]
       );
@@ -78,7 +70,7 @@ export default function OrderForm() {
         <p className="font-mono text-[10px] tracking-[0.25em] uppercase text-[#d4607a] mb-3">Reserva tu unidad</p>
         <h2 className="text-[clamp(28px,4vw,42px)] font-normal leading-[1.2] text-[#f0ede6] mb-4">Formulario de pedido</h2>
         <p className="font-sans text-[15px] text-[#a09890] leading-[1.8] mb-10">
-          Nos ponemos en contacto por WhatsApp para confirmar tu pedido (El pedido se confirmará cuando se haga el pago adelantado de 10bs).
+          Nos ponemos en contacto por WhatsApp para confirmar tu pedido (El pedido se confirmará cuando se haga el pago adelantado de {ANTICIPO_LAMPARA} Bs).
         </p>
 
         <div className="bg-[#141414] border border-[#222] rounded-2xl p-6 sm:p-10">
@@ -152,19 +144,18 @@ export default function OrderForm() {
                 <label className="block font-bold text-[10px] tracking-[0.2em] uppercase text-gray-400 mb-2">Color de la lámpara</label>
                 <div className="flex flex-wrap gap-2.5 mt-2">
                   {COLORES.map((c) => (
-                    <button
-                      key={c.id}
-                      type="button"
-                      className={`w-9 h-9 rounded-full border-2 transition-all relative group ${colorSel === c.id ? "border-[#f0ede6] scale-110" : "border-transparent"}`}
-                      style={{ background: c.hex }}
-                      onClick={() => setColorSel(c.id)}
-                      aria-label={c.label}
-                    >
-                      {/* Tooltip de color */}
-                      <span className="absolute top-10 left-1/2 -translate-x-1/2 font-mono text-[9px] text-[#5a5248] whitespace-nowrap tracking-[0.05em] opacity-0 group-hover:opacity-100 transition-opacity">
+                    <div key={c.id} className="flex min-w-16 flex-col items-center gap-2">
+                      <button
+                        type="button"
+                        className={`w-9 h-9 rounded-full border-2 transition-all ${colorSel === c.id ? "border-[#f0ede6] scale-110" : "border-transparent"}`}
+                        style={{ background: c.hex }}
+                        onClick={() => setColorSel(c.id)}
+                        aria-label={`Seleccionar color ${c.label}`}
+                      />
+                      <span className="font-mono text-[11px] text-gray-300 whitespace-nowrap tracking-[0.05em]">
                         {c.label}
                       </span>
-                    </button>
+                    </div>
                   ))}
                 </div>
               </div>
@@ -205,7 +196,7 @@ export default function OrderForm() {
               <div className="bg-[#0d0d0d] border border-[#222] rounded-lg p-5 mt-5 font-sans text-[13px]">
                 <div className="flex justify-between py-1.5 text-[#7a7068]">
                   <span>Lámpara de Rosas — {colorActual.label}</span>
-                  <span>Bs. 90.00</span>
+                  <span>Bs. {PRECIO_LAMPARA.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between py-1.5 text-[#7a7068]">
                   <span>Cantidad</span>
@@ -217,7 +208,7 @@ export default function OrderForm() {
                 </div>
                 <div className="flex justify-between pt-3 mt-2 border-t border-[#222] text-[#f0ede6] text-[16px]">
                   <span>Total</span>
-                  <span>Bs. {(90 * cantidad).toFixed(2)}</span>
+                  <span>Bs. {(PRECIO_LAMPARA * cantidad).toFixed(2)}</span>
                 </div>
               </div>
 

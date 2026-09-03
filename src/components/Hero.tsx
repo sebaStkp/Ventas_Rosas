@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import { PRECIO_LAMPARA } from "@/libs/constants";
 
 export default function Hero() {
   const [visible, setVisible] = useState(false);
@@ -34,11 +35,11 @@ export default function Hero() {
       
       <div className={`font-sans text-[13px] text-[#a09890] tracking-[0.1em] transition-all duration-700 ease-out delay-500 mb-8 ${visible ? "opacity-100" : "opacity-0"}`}>
         Precio de venta
-        <strong className="text-[28px] font-light text-[#f0ede6] block mt-1">Bs. 90.00</strong>
+        <strong className="text-[28px] font-light text-[#f0ede6] block mt-1">Bs. {PRECIO_LAMPARA.toFixed(2)}</strong>
       </div>
       
       <p className={`font-sans text-[14px] text-[#a09890] max-w-[480px] mx-auto transition-all duration-700 ease-out delay-700 ${visible ? "opacity-100" : "opacity-0"}`}>
-        Haz un depósito en QR de únicamente <strong className="text-xl text-[#f0ede6]">Bs. 10.00</strong> para reservar tu unidad, el producto se podrá entregar desde el <strong className="text-xl text-[#f0ede6]">10 de Julio</strong>, ¡la ubicación la decides tú en el formulario!
+        Haz un depósito en QR de únicamente <strong className="text-xl text-[#f0ede6]">Bs. 20.00</strong> para reservar tu unidad, el producto se podrá entregar desde el <strong className="text-xl text-[#f0ede6]">10 de Julio</strong>, ¡la ubicación la decides tú en el formulario!
       </p>
     </div>
   );

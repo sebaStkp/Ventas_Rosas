@@ -1,5 +1,9 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## Configuración del panel admin
+
+Copia `.env.example` como `.env` y cambia los valores de `ADMIN_USERNAME`, `ADMIN_PASSWORD` y `ADMIN_SESSION_SECRET`. El panel está disponible en `/admin`, requiere iniciar sesión y bloquea nuevos intentos después de 3 fallos durante 15 minutos.
+
 ## Getting Started
 
 First, run the development server:
