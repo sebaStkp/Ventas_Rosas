@@ -5,12 +5,12 @@ export type OrdenDTO = {
   lugar_entrega: string;
   latitud: number;
   longitud: number;
-  hora_entrega?: string;
+  hora_entrega?: Date;
   estado: string;
   fecha_creacion: Date;
 };
 
-export type CreateOrdenDTO = Pick<OrdenDTO, "usuario_id" | "ciudad" | "lugar_entrega" | "latitud" | "longitud">;
+export type CreateOrdenDTO = Pick<OrdenDTO, "usuario_id" | "ciudad" | "lugar_entrega" | "latitud" | "longitud" | "hora_entrega">;
 export type UpdateEstadoOrdenDTO = Pick<OrdenDTO, "id" | "estado">;
 
 export type DetalleParaOrdenCreate = {

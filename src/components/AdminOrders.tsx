@@ -30,11 +30,20 @@ type AdminOrdersProps = {
 };
 
 function formatDate(value: string) {
-  return new Intl.DateTimeFormat("es-BO", {
-    dateStyle: "medium",
-    timeStyle: "short",
+  const parts = new Intl.DateTimeFormat("en-US", {
+    day: "numeric",
+    hour: "numeric",
+    hour12: true,
+    minute: "2-digit",
+    month: "numeric",
     timeZone: "America/La_Paz",
-  }).format(new Date(value));
+    year: "numeric",
+  }).formatToParts(new Date(value));
+  const values = Object.fromEntries(parts.map((part) => [part.type, part.value]));
+  const months = ["", "ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sept", "oct", "nov", "dic"];
+  const period = values.dayPeriod === "AM" ? "a. m." : "p. m.";
+
+  return `${values.day} ${months[Number(values.month)]} de ${values.year}, ${values.hour}:${values.minute} ${period}`;
 }
 
 function whatsappPhone(phone: string) {
@@ -61,8 +70,8 @@ function whatsappUrl(order: AdminOrder) {
   const message = [
     `Hola ${order.usuario.nombre}, hemos recibido tu petición: ${products} (${units} unidad${units === 1 ? "" : "es"}).`,
     `El costo será de Bs. ${total.toFixed(2)}, pero el anticipo será de Bs. ${ANTICIPO_LAMPARA.toFixed(2)}.`,
-    `Una vez hagas la transferencia, confirmaremos tu pedido y te entregaremos en ${order.lugar_entrega}${order.hora_entrega ? `, a horas ${formatDate(order.hora_entrega)}` : ", a horas por coordinar"}.`,
-    "No olvides que la entrega será el día ....... Gracias.",
+    `Una vez hagas la transferencia, confirmaremos tu pedido y te entregaremos en ${order.lugar_entrega}${order.hora_entrega ? `, el ${formatDate(order.hora_entrega)}` : ", con fecha y hora por coordinar"}.`,
+    "Gracias.",
   ].join("\n\n");
 
   return `https://wa.me/${whatsappPhone(order.usuario.telefono)}?text=${encodeURIComponent(message)}`;
@@ -167,6 +176,9 @@ export default function AdminOrders({ orders }: AdminOrdersProps) {
                   <td className="px-5 py-4 text-xs text-[#aaa29a]">
                     <p>{order.detalles.reduce((total, detail) => total + detail.cantidad, 0)} unidad(es)</p>
                     <p className="mt-1 text-[#766b61]">{formatDate(order.fecha_creacion)}</p>
+                    <p className="mt-2 text-[#d8b77b]">
+                      Recojo: {order.hora_entrega ? formatDate(order.hora_entrega) : "Por coordinar"}
+                    </p>
                   </td>
                   <td className="px-5 py-4 text-xs text-[#aaa29a]">
                     <div className="flex flex-wrap gap-2">
@@ -270,6 +282,7 @@ export default function AdminOrders({ orders }: AdminOrdersProps) {
                 <dl className="mt-3 space-y-2 text-sm text-[#d7d0c7]">
                   <div><dt className="inline text-[#766b61]">Ciudad: </dt><dd className="inline">{selectedOrder.ciudad}</dd></div>
                   <div><dt className="inline text-[#766b61]">Lugar: </dt><dd className="inline">{selectedOrder.lugar_entrega}</dd></div>
+                  <div><dt className="inline text-[#766b61]">Recojo: </dt><dd className="inline">{selectedOrder.hora_entrega ? formatDate(selectedOrder.hora_entrega) : "Por coordinar"}</dd></div>
                   <div><dt className="inline text-[#766b61]">Creada: </dt><dd className="inline">{formatDate(selectedOrder.fecha_creacion)}</dd></div>
                 </dl>
               </div>

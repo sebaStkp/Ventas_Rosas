@@ -39,7 +39,7 @@ export default function Hero() {
       </div>
       
       <p className={`font-sans text-[14px] text-[#a09890] max-w-[480px] mx-auto transition-all duration-700 ease-out delay-700 ${visible ? "opacity-100" : "opacity-0"}`}>
-        Haz un depósito en QR de únicamente <strong className="text-xl text-[#f0ede6]">Bs. 20.00</strong> para reservar tu unidad, el producto se podrá entregar desde el <strong className="text-xl text-[#f0ede6]">10 de Julio</strong>, ¡la ubicación la decides tú en el formulario!
+        Haz un depósito en QR de únicamente <strong className="text-xl text-[#f0ede6]">Bs. 20.00</strong> para reservar tu unidad, el producto se podrá entregar aproximadamente desde el <strong className="text-xl text-[#f0ede6]">14 de Julio</strong>, ¡la ubicación la decides tú en el formulario!
       </p>
     </div>
   );

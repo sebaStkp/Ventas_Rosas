@@ -4,6 +4,7 @@ type PedidoNotificacion = {
   id: string;
   ciudad: string;
   lugar_entrega: string;
+  hora_entrega?: Date | string | null;
   usuario: {
     nombre: string;
     ci: string;
@@ -60,6 +61,7 @@ export async function enviarNotificacionPedido(pedido: PedidoNotificacion) {
       `WhatsApp: ${pedido.usuario.telefono}`,
       `Ciudad: ${pedido.ciudad}`,
       `Entrega: ${pedido.lugar_entrega}`,
+      `Recojo: ${pedido.hora_entrega ? new Intl.DateTimeFormat("es-BO", { dateStyle: "full", timeStyle: "short", timeZone: "America/La_Paz" }).format(new Date(pedido.hora_entrega)) : "Por coordinar"}`,
       "",
       "Productos:",
       detalles,
